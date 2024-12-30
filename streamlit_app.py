@@ -33,12 +33,6 @@ if ingredients_list:
 else:
     ingredients_string = ''
 
-# Insert query
-my_insert_stmt = (
-    "INSERT INTO smoothies.public.orders (ingredients, name_on_order) "
-    "VALUES (%s, %s)"
-)
-
 # Submit order
 time_to_insert = st.button('Submit Order')
 if time_to_insert:
@@ -48,7 +42,12 @@ if time_to_insert:
         st.error("Please select at least one ingredient.")
     else:
         try:
-            session.sql(my_insert_stmt, (ingredients_string, name_on_order)).collect()
+            # Construct the SQL query using string interpolation
+            my_insert_stmt = f"""
+                INSERT INTO smoothies.public.orders (ingredients, name_on_order)
+                VALUES ('{ingredients_string}', '{name_on_order}')
+            """
+            session.sql(my_insert_stmt).collect()
             st.success(f"Your Smoothie is ordered, {name_on_order}!", icon="✅")
         except Exception as e:
             st.error(f"An error occurred while submitting your order: {str(e)}")
