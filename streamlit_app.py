@@ -51,3 +51,8 @@ if time_to_insert:
             st.success(f"Your Smoothie is ordered, {name_on_order}!", icon="✅")
         except Exception as e:
             st.error(f"An error occurred while submitting your order: {str(e)}")
+
+import requests
+smoothiefroot_response = requests.get("https://my.smoothiefroot.com/api/fruit/watermelon")
+st.text(smoothiefroot_response)
+
