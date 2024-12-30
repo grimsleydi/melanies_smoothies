@@ -18,7 +18,9 @@ except Exception as e:
 
 # Get fruit options
 try:
-    my_dataframe = session.table("smoothies.public.fruit_options").select(col('FRUIT_NAME'))
+    my_dataframe = session.table("smoothies.public.fruit_options").select(col('FRUIT_NAME'), col('SEARCH_ON'))
+    st.dataframe(data=my_dataframe, use_container_width = True)
+    st.stop()
     fruit_options = my_dataframe.to_pandas()["FRUIT_NAME"].tolist()
 except Exception as e:
     st.error(f"Error retrieving fruit options: {str(e)}")
